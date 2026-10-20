@@ -1,5 +1,7 @@
 # QS-BFT
 
+Python reference for the QS-BFT consensus protocol and the MH-USS signature scheme in Kabir, Akand, Robbani, Dhrubo, Qayum, Zareen, and Arman, QuantumShield: A Quantum-Secured Blockchain Consensus Framework (QS-BFT) for Next-Generation Consumer Applications, Research Square, posted 11 March 2026.
+
 Written by Md Farhad Kabir. First published October 20, 2026. The preprint’s figures come from the Go testbed the preprint describes. This package is a standard-library Python 3 reference of the same algorithm and the same experiment sizes. Its figures are from this run and move with the host.
 
 This is not the testbed code behind the preprint’s figures. There is no QKD hardware; keys are simulated random strings as in the preprint’s experiment.
@@ -187,4 +189,4 @@ docs/figures/latency.svg
 
 ## Citation
 
-Cite the preprint. [CITATION.cff](CITATION.cff) carries the seven authors and the DOI. The software license is MIT ([LICENSE](LICENSE)). The preprint is distributed by its authors under Creative Commons Attribution 4.0.
+Cite the preprint. [CITATION.cff](CITATION.cff) names the software author and gives the preprint, with its seven authors and DOI, as the preferred citation. The software license is MIT ([LICENSE](LICENSE)). The preprint is distributed by its authors under Creative Commons Attribution 4.0.
