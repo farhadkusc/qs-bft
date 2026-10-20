@@ -1,0 +1,19 @@
+[project]
+name = "qs-bft"
+version = "1.0.0"
+description = "Python reference for QS-BFT, the consensus protocol in Research Square preprint rs-9084418."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Md Farhad Kabir" },
+  { name = "Abdullah Rakib Akand" },
+  { name = "Md Sharif Robbani" },
+  { name = "Ahmed Faizul Haque Dhrubo" },
+  { name = "Mohammad Abdul Qayum" },
+  { name = "Sufia Zareen" },
+  { name = "Mithila Arman" },
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

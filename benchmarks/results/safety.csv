@@ -1,0 +1,8 @@
+n,f,quorum,quorum_sets,pairs,min_intersection,theorem4_bound_f_plus_1,pairs_below_f_plus_1,n_equals_3f_plus_1,bound_holds
+4,1,3,4,6,2,2,0,True,True
+5,1,3,10,45,1,2,15,False,False
+6,1,3,20,190,0,2,100,False,False
+7,2,5,21,210,3,3,0,True,True
+8,2,5,56,1540,2,3,280,False,False
+9,2,5,126,7875,1,3,2835,False,False
+10,3,7,120,7140,4,4,0,True,True

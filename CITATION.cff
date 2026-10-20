@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the preprint and this repository."
+title: "QS-BFT: Python reference for a quantum-secured Byzantine consensus protocol"
+version: 1.0.0
+date-released: 2026-10-20
+url: "https://github.com/farhadkusc/qs-bft"
+license: MIT
+type: software
+identifiers:
+  - type: doi
+    value: 10.21203/rs.3.rs-9084418/v1
+    description: "Research Square preprint of the QS-BFT paper"
+authors:
+  - family-names: Kabir
+    given-names: Md Farhad
+    affiliation: University of Southern California
+  - family-names: Akand
+    given-names: Abdullah Rakib
+    affiliation: Asian University of Bangladesh
+  - family-names: Robbani
+    given-names: Md Sharif
+    affiliation: Western Illinois University
+  - family-names: Dhrubo
+    given-names: Ahmed Faizul Haque
+    affiliation: North South University
+  - family-names: Qayum
+    given-names: Mohammad Abdul
+    affiliation: North South University
+  - family-names: Zareen
+    given-names: Sufia
+    affiliation: Campbellsville University
+  - family-names: Arman
+    given-names: Mithila
+    affiliation: BRAC University
+preferred-citation:
+  type: article
+  title: "QuantumShield: A Quantum-Secured Blockchain Consensus Framework (QS-BFT) for Next-Generation Consumer Applications"
+  doi: 10.21203/rs.3.rs-9084418/v1
+  url: "https://doi.org/10.21203/rs.3.rs-9084418/v1"
+  year: 2026
+  date-published: 2026-03-11
+  license: CC-BY-4.0
+  authors:
+    - family-names: Kabir
+      given-names: Md Farhad
+    - family-names: Akand
+      given-names: Abdullah Rakib
+    - family-names: Robbani
+      given-names: Md Sharif
+    - family-names: Dhrubo
+      given-names: Ahmed Faizul Haque
+    - family-names: Qayum
+      given-names: Mohammad Abdul
+    - family-names: Zareen
+      given-names: Sufia
+    - family-names: Arman
+      given-names: Mithila
