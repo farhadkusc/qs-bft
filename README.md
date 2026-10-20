@@ -4,7 +4,7 @@ Written by Md Farhad Kabir. First published October 20, 2026. The preprint’s f
 
 This is not the testbed code behind the preprint’s figures. There is no QKD hardware; keys are simulated random strings as in the preprint’s experiment.
 
-DOI: [10.21203/rs.3.rs-9084418/v1](https://doi.org/10.21203/rs.3.rs-9084418/v1). The preprint PDF is [docs/preprint.pdf](docs/preprint.pdf).
+DOI: [10.21203/rs.3.rs-9084418/v1](https://doi.org/10.21203/rs.3.rs-9084418/v1). The preprint PDF is [docs/preprint.pdf](docs/preprint.pdf). The preprint’s data-availability statement names [ahmeddhruboanondo-sys/quantumshield-plosone](https://github.com/ahmeddhruboanondo-sys/quantumshield-plosone).
 
 Package version 1.0.0. The numbers in this file are the run stored in [benchmarks/results/evaluation.json](benchmarks/results/evaluation.json), produced by CPython 3.10.22 on `Linux-6.12.8+-x86_64-with-glibc2.36`.
 
