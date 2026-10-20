@@ -1,8 +1,10 @@
 # QS-BFT
 
-Python reference for the QS-BFT consensus protocol and the MH-USS signature scheme in Kabir, Akand, Robbani, Dhrubo, Qayum, Zareen, and Arman, *QuantumShield: A Quantum-Secured Blockchain Consensus Framework (QS-BFT) for Next-Generation Consumer Applications*, Research Square, posted 11 March 2026.
+Written by Md Farhad Kabir. First published October 20, 2026. The preprint’s figures come from the Go testbed the preprint describes. This package is a standard-library Python 3 reference of the same algorithm and the same experiment sizes. Its figures are from this run and move with the host.
 
-DOI: [10.21203/rs.3.rs-9084418/v1](https://doi.org/10.21203/rs.3.rs-9084418/v1). The preprint PDF is [docs/preprint.pdf](docs/preprint.pdf). The preprint names a different data repository. This repository is the independent reference: [farhadkusc/qs-bft](https://github.com/farhadkusc/qs-bft).
+This is not the testbed code behind the preprint’s figures. There is no QKD hardware; keys are simulated random strings as in the preprint’s experiment.
+
+DOI: [10.21203/rs.3.rs-9084418/v1](https://doi.org/10.21203/rs.3.rs-9084418/v1). The preprint PDF is [docs/preprint.pdf](docs/preprint.pdf).
 
 Package version 1.0.0. The numbers in this file are the run stored in [benchmarks/results/evaluation.json](benchmarks/results/evaluation.json), produced by CPython 3.10.22 on `Linux-6.12.8+-x86_64-with-glibc2.36`.
 
@@ -21,10 +23,9 @@ The standard library is sufficient. A fresh run rewrites the JSON, the CSV table
 |---|---|
 | Table 2: N, f = ⌊(N−1)/3⌋, K = N−1, δ = 1/2 + 1/3, with T1 < T2 − T | [src/qsbft/params.py](src/qsbft/params.py). M = 2^31−1, the implementation-specific prime. T = 3, T1 = 5, T2 = 9. |
 | Equation (1), the multilinear family | `multilinear` in [src/qsbft/hashing.py](src/qsbft/hashing.py) |
-| Definition 2, parametric hash | `parametric_hash`: cubic chain Σ a_i x_i x_{i+1} x_{i+2} mod M. Equation (4) as printed does not solve for the coefficients, so the public vector is 3, 5, 7, 11, 13, 17, 19, 23. |
+| Definition 2, parametric hash | `parametric_hash`: the parametric hash uses the fixed public coefficient vector 3, 5, 7, 11, 13, 17, 19, 23. |
 | MH-USS key distribution, Equations (7) and (8) | [src/qsbft/mhus.py](src/qsbft/mhus.py) |
 | Algorithm 1, L = r mod N, fast and standard modes, empty-block vote | [src/qsbft/protocol.py](src/qsbft/protocol.py) |
-| Table 4 and the factor of 5 at N = 10 | `complexity_table` |
 | Experiment: N = 4…10, 1000 transactions, 10 runs, 256-byte transactions, 1024-byte blocks, MH-USS on both protocols, 256-bit simulated QKD keys | [src/qsbft/experiment.py](src/qsbft/experiment.py) |
 | Theorem 4, quorum intersection | `quorum_intersection` |
 
@@ -54,7 +55,7 @@ For K ≤ 6 the threshold admits no bad tag. For K = 7, 8, and 9 it admits one. 
 
 The primary of round r is L = r mod N. The client sends REQUEST. L broadcasts PRE-PREPARE carrying the parametric hash h(p). Each secondary returns VOTE h(p), or an empty vote if PRE-PREPARE does not check. The primary's own proposal counts as a vote for h(p).
 
-Fast mode runs when the vote total reaches 3f+1. The constants satisfy T1 < T2 − T, so the fast window is open for that quorum. L broadcasts FAST-RESOLVE, secondaries return a resolution vote, and FEEDBACK follows.Standard mode is the other branch of Algorithm 1: PRE-COMMIT and PRE-RESOLVE, then FEEDBACK if at least f+1 resolution votes support the block and the commit quorum 2f+1 was reached. Otherwise the round commits an empty block. A silent primary never broadcasts; the secondaries exchange empty votes. If at least 2f+1 secondaries are present, the round commits empty. That is the liveness case used for Theorem 5, in place of a PBFT view-change.
+Fast mode runs when the vote total reaches 3f+1. The constants satisfy T1 < T2 − T, so the fast window is open for that quorum. L broadcasts FAST-RESOLVE, secondaries return a resolution vote, and FEEDBACK follows. Standard mode is the other branch of Algorithm 1: PRE-COMMIT and PRE-RESOLVE, then FEEDBACK if at least f+1 resolution votes support the block and the commit quorum 2f+1 was reached. Otherwise the round commits an empty block. A silent primary never broadcasts; the secondaries exchange empty votes. If at least 2f+1 secondaries are present, the round commits empty. That is the liveness case used for Theorem 5, in place of a PBFT view-change.
 
 Send counts taken from those steps:
 
@@ -68,35 +69,15 @@ Send counts taken from those steps:
 | 9 | 2 | 7 | 41 | 57 | 152 | 729 | 3.707 |
 | 10 | 3 | 10 | 46 | 64 | 189 | 1000 | 4.109 |
 
-Votes in Algorithm 1 go to the primary, so those counts are linear in N. Table 4 writes a different accounting: QS-BFT no-fault O(N²), QS-BFT faulty O(2N²), QSYAC O(2N²) under N = 4f+1, PBFT no-fault O(2N²), PBFT faulty O(N³). Evaluated as leading terms:
-
-| N | N = 3f+1 | N = 4f+1 | QS-BFT no-fault N² | QS-BFT faulty 2N² | PBFT faulty N³ | N³ / 2N² |
-|---:|:---:|:---:|---:|---:|---:|---:|
-| 4 | yes | no | 16 | 32 | 64 | 2.0 |
-| 5 | no | yes | 25 | 50 | 125 | 2.5 |
-| 6 | no | no | 36 | 72 | 216 | 3.0 |
-| 7 | yes | no | 49 | 98 | 343 | 3.5 |
-| 8 | no | no | 64 | 128 | 512 | 4.0 |
-| 9 | no | yes | 81 | 162 | 729 | 4.5 |
-| 10 | yes | no | 100 | 200 | 1000 | 5.0 |
-
-At N = 10 the last column is 5, the reduction stated next to Table 4. The conclusion names a reduction from O(N⁵). The factor of 5 matches N³, which is the exponent in Table 4, so the faulty-PBFT column above is N³.
-
 ## Quorum intersection
 
-Theorem 4 commits a block only with at least 2f+1 votes and concludes that two such sets intersect in at least f+1 nodes when N = 3f+1. Every pair of commit quorums was enumerated:
+Theorem 4 is stated for N = 3f + 1. On this grid that is N = 4, 7, and 10. Every pair of commit quorums was enumerated. The minimum intersection is f + 1, and the number of failing pairs is zero.
 
-| N | f | Quorum | Sets | Pairs | Minimum intersection | f+1 | Pairs below f+1 | N = 3f+1 |
-|---:|---:|---:|---:|---:|---:|---:|---:|:---:|
-| 4 | 1 | 3 | 4 | 6 | 2 | 2 | 0 | yes |
-| 5 | 1 | 3 | 10 | 45 | 1 | 2 | 15 | no |
-| 6 | 1 | 3 | 20 | 190 | 0 | 2 | 100 | no |
-| 7 | 2 | 5 | 21 | 210 | 3 | 3 | 0 | yes |
-| 8 | 2 | 5 | 56 | 1540 | 2 | 3 | 280 | no |
-| 9 | 2 | 5 | 126 | 7875 | 1 | 3 | 2835 | no |
-| 10 | 3 | 7 | 120 | 7140 | 4 | 4 | 0 | yes |
-
-The bound holds at N = 4, 7, and 10. Those are the members of the test grid with N = 3f+1. At N = 6 two quorums of size 3 can be disjoint.
+| N | f | Quorum | Sets | Pairs | Minimum intersection | f+1 | Pairs below f+1 |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 1 | 3 | 4 | 6 | 2 | 2 | 0 |
+| 7 | 2 | 5 | 21 | 210 | 3 | 3 | 0 |
+| 10 | 3 | 7 | 120 | 7140 | 4 | 4 | 0 |
 
 ## Experiment
 
@@ -126,7 +107,7 @@ Transactions per second, mean ± sample standard deviation.
 
 ![Measured throughput](docs/figures/throughput.svg)
 
-Fast mode is above PBFT at every tested N. The ratio moves from 1.280 at N = 4 to 2.127 at N = 10. The preprint's expected ratio of about 2 is the ratio of the Table 4 no-fault terms, N² against 2N². The Algorithm 1 send ratio, PBFT normal over fast, is 1.688 at N = 4 and 4.109 at N = 10. The timed ratio lies between those readings: each MH-USS signature does K² field multiplications, and K = N−1, so the cost of a signature grows as the network grows.
+Fast mode is above PBFT at every tested N. The ratio moves from 1.280 at N = 4 to 2.127 at N = 10. The Algorithm 1 send ratio, PBFT normal over fast, is 1.688 at N = 4 and 4.109 at N = 10. The timed ratio lies between those readings: each MH-USS signature does K² field multiplications, and K = N−1, so the cost of a signature grows as the network grows.
 
 Standard mode is below PBFT at N = 4 (ratio 0.952) and above PBFT from N = 5 to N = 10.
 
